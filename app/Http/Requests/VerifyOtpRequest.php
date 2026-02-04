@@ -23,7 +23,7 @@ class VerifyOtpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'phone_164' => ['required', Rule::exists('users', 'phone_e164')]
+            'phone_e164' => ['required', Rule::exists('users', 'phone_e164')]
         ];
     }
 }

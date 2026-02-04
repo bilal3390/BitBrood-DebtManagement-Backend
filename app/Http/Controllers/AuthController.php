@@ -28,7 +28,7 @@ class AuthController extends Controller
 
     public function verifyOtp(VerifyOtpRequest $request)
     {
-        $phone = $request->validated()['phone_164'];
+        $phone = $request->validated()['phone_e164'];
 
         $user = User::where('phone_e164', $phone)->update([
            'phone_verified_at' => now()

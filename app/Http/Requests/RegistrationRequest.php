@@ -22,6 +22,8 @@ class RegistrationRequest extends FormRequest
      */
     public function rules(): array
     {
+        \Log::info('Validating registration request: ', $this->all());
+
         return [
             'name' => ['required','max:50','min:3'],
             'email' => ['required','email:dns',Rule::unique('users', 'email')],
