@@ -22,12 +22,10 @@ class RegistrationRequest extends FormRequest
      */
     public function rules(): array
     {
-        \Log::info('Validating registration request: ', $this->all());
-
         return [
-            'name' => ['required','max:50','min:3'],
-            'email' => ['required','email:dns',Rule::unique('users', 'email')],
-            'phone_e164' => ['required','min:10','max:15',Rule::unique('users', 'phone_e164')],
+            'name' => ['required'],
+            'email' => ['required'],
+            'user_phone_e164' => ['required'],
             'currency' => ['required']
         ];
     }

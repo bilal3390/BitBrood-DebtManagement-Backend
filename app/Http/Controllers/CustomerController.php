@@ -2,86 +2,88 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AllCustomersRequest;
-use App\Http\Requests\CreateCustomersRequest;
-use App\Http\Requests\DeleteCustomersRequest;
-use App\Http\Requests\UpdateCustomersRequest;
-use App\Http\Requests\ViewCustomersRequest;
+use Illuminate\Http\Request;
 use App\Models\Customer;
-use App\Models\User;
 
 class CustomerController extends Controller
 {
-    public function allCustomers(AllCustomersRequest $request)
+    public function allCustomers(Request $request)
     {
-        $phone = $request->validated()['phone_e164'];
+        $data = $request->validate([
+            'user_phone_e164' => 'required|exists:users,user_phone_e164'
+        ]);
 
-        $user = User::where('phone_e164', $phone)->first();
-
-        $customers = Customer::where('user_id', $user->id)->get();
+        $customers = Customer::where('user_phone_e164', $data['user_phone_e164'])->get();
 
         return response()->json([
             'status' => true,
-            'message' => 'All customers',
             'customers' => $customers
         ]);
     }
 
-    public function addCustomer(CreateCustomersRequest $request)
+    public function addCustomer(Request $request)
     {
-        $dataArray = $request->validated();
-
-        $customer = Customer::create([
-            'name' => $dataArray['name'],
-            'phone_e164' => $dataArray['phone_e164']
+        $data = $request->validate([
+            'user_phone_e164' => 'required|exists:users,user_phone_e164',
+            'customer_phone_e164' => 'required|unique:customers,customer_phone_e164',
+            'customer_name' => 'required|string|max:255',
         ]);
+
+        $customer = Customer::create($data);
 
         return response()->json([
             'status' => true,
-            'message' => 'Customer created successful',
+            'message' => 'Customer created successfully',
             'customer' => $customer
         ]);
     }
 
-    public function updateCustomer(UpdateCustomersRequest $request)
+    public function singleCustomer(Request $request)
     {
-        $dataArray = $request->validated();
-
-        $customer = Customer::whereId($dataArray['id'])->update([
-            'name' => $dataArray['name'],
-            'phone_e164' => $dataArray['phone_e164']
+        $data = $request->validate([
+            'customer_phone_e164' => 'required|exists:customers,customer_phone_e164'
         ]);
+
+        $customer = Customer::where(
+            'customer_phone_e164',
+            $data['customer_phone_e164']
+        )->first();
 
         return response()->json([
             'status' => true,
-            'message' => 'Customer updated successful',
             'customer' => $customer
         ]);
     }
 
-    public function singleCustomer(ViewCustomersRequest $request)
+    public function updateCustomer(Request $request)
     {
-        $id = $request->validated()['id'];
+        $data = $request->validate([
+            'customer_phone_e164' => 'required|exists:customers,customer_phone_e164',
+            'customer_name' => 'required|string|max:255'
+        ]);
 
-        $customer = Customer::whereId($id)->first();
+        Customer::where('customer_phone_e164', $data['customer_phone_e164'])
+            ->update([
+                'customer_name' => $data['customer_name']
+            ]);
 
         return response()->json([
             'status' => true,
-            'message' => 'Customer detail',
-            'customer' => $customer
+            'message' => 'Customer updated successfully'
         ]);
     }
 
-    public function deleteCustomer(DeleteCustomersRequest $request)
+    public function deleteCustomer(Request $request)
     {
-        $id = $request->validated()['id'];
+        $data = $request->validate([
+            'customer_phone_e164' => 'required|exists:customers,customer_phone_e164'
+        ]);
 
-        Customer::whereId($id)->delete();
+        Customer::where('customer_phone_e164', $data['customer_phone_e164'])->delete();
 
         return response()->json([
             'status' => true,
-            'message' => 'Customer deleted successfully',
-            'customer' => null
+            'message' => 'Customer deleted successfully'
         ]);
     }
 }

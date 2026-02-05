@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('debts', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->foreignId('customer_id')->constrained()->onDelete('cascade');
+            $table->string('user_phone_e164');
+            $table->string('customer_phone_e164');
             $table->enum('type', ['borrowed', 'gave']);
             $table->decimal('total_amount', 15, 2);
             $table->string('note')->nullable();
@@ -24,7 +24,11 @@ return new class extends Migration
             $table->string('cheque_number')->nullable();
             $table->string('source_other')->nullable();
             $table->timestamps();
-            $table->index(['user_id', 'customer_id']);
+
+            $table->foreign('user_phone_e164')->references('user_phone_e164')->on('users')->cascadeOnDelete();
+            $table->foreign('customer_phone_e164')->references('customer_phone_e164')->on('customers')->cascadeOnDelete();
+
+            $table->index(['user_phone_e164', 'customer_phone_e164']);
         });
     }
 

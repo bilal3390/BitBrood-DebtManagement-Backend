@@ -2,22 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RegistrationRequest;
-use App\Http\Requests\VerifyOtpRequest;
 use App\Models\User;
+use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function register(RegistrationRequest $request)
+    public function register(Request $request)
     {
-        $dataArray = $request->validated();
-
-        $user = User::create([
-            'name' => $dataArray['name'],
-            'email' => $dataArray['email'],
-            'phone_e164' => $dataArray['phone_e164'],
-            'currency' => $dataArray['currency']
+        $data = $request->validate([
+            'name' => 'required|string',
+            'email' => 'nullable|email',
+            'user_phone_e164' => 'required|unique:users,user_phone_e164',
+            'currency' => 'required'
         ]);
+
+        $user = User::create($data);
 
         return response()->json([
             'status' => true,
@@ -26,18 +25,18 @@ class AuthController extends Controller
         ]);
     }
 
-    public function verifyOtp(VerifyOtpRequest $request)
+    public function verifyOtp(Request $request)
     {
-        $phone = $request->validated()['phone_e164'];
-
-        $user = User::where('phone_e164', $phone)->update([
-           'phone_verified_at' => now()
+        $data = $request->validate([
+            'user_phone_e164' => 'required|exists:users,user_phone_e164'
         ]);
+
+        User::where('user_phone_e164', $data['user_phone_e164'])
+            ->update(['phone_verified_at' => now()]);
 
         return response()->json([
             'status' => true,
-            'message' => 'User verified successfully',
-            'user' => $user
+            'message' => 'User verified successfully'
         ]);
     }
 }

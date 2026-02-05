@@ -12,12 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('customers', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('name');
-            $table->string('phone_e164')->index();
-            $table->unique(['user_id', 'phone_e164']);
+            $table->string('customer_phone_e164')->primary();
+            $table->string('user_phone_e164');
+            $table->string('customer_name');
             $table->timestamps();
+
+            $table->foreign('user_phone_e164')
+                ->references('user_phone_e164')
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 

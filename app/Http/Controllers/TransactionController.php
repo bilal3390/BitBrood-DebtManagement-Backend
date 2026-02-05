@@ -2,84 +2,90 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\AllTransactionsRequest;
-use App\Http\Requests\CreateTransactionRequest;
-use App\Http\Requests\DeleteTransactionRequest;
-use App\Http\Requests\EditTransactionRequest;
+use Illuminate\Http\Request;
 use App\Models\Debt;
 
 class TransactionController extends Controller
 {
-    public function createTransaction(CreateTransactionRequest $request)
+    // 🔹 Create transaction
+    public function createTransaction(Request $request)
     {
-        $dataArray = $request->validated();
-
-        $transaction = Debt::create([
-            'user_id' => $dataArray['user_id'],
-            'customer_id' => $dataArray['customer_id'],
-            'type' => $dataArray['type'],
-            'total_amount' => $dataArray['total_amount'],
-            'note' => $dataArray['note'],
-            'date' => $dataArray['date'],
-            'due_date' => $dataArray['due_date'],
-            'cheque_number' => $dataArray['source'],
-            'source_other' => $dataArray['source_other']
+        $data = $request->validate([
+            'user_phone_e164' => 'required|exists:users,user_phone_e164',
+            'customer_phone_e164' => 'required|exists:customers,customer_phone_e164',
+            'type' => 'required|in:borrowed,gave',
+            'total_amount' => 'required|numeric|min:0',
+            'note' => 'nullable|string',
+            'date' => 'required|date',
+            'due_date' => 'nullable|date',
+            'source' => 'nullable|in:Cash,Cheque,Other',
+            'cheque_number' => 'nullable|string',
+            'source_other' => 'nullable|string',
         ]);
+
+        $transaction = Debt::create($data);
 
         return response()->json([
             'status' => true,
             'message' => 'Transaction created successfully',
-            'transactions' => $transaction
-        ]);
-    }
-
-    public function transactions(AllTransactionsRequest $request)
-    {
-        $dataArray = $request->validated();
-
-        $transactions = Debt::where('user_id', $dataArray['user_id'])
-            ->where('customer_id', $dataArray['customer_id'])->get();
-
-        return response()->json([
-            'status' => true,
-            'message' => 'All transactions',
-            'transactions' => $transactions
-        ]);
-    }
-
-    public function editTransaction(EditTransactionRequest $request)
-    {
-        $dataArray = $request->validated();
-
-        $transaction = Debt::whereId($dataArray['id'])->update([
-            'user_id' => $dataArray['user_id'],
-            'customer_id' => $dataArray['customer_id'],
-            'type' => $dataArray['type'],
-            'total_amount' => $dataArray['total_amount'],
-            'note' => $dataArray['note'],
-            'date' => $dataArray['date'],
-            'due_date' => $dataArray['due_date'],
-            'cheque_number' => $dataArray['source'],
-            'source_other' => $dataArray['source_other']
-        ]);
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Transaction updated successfully',
             'transaction' => $transaction
         ]);
     }
 
-    public function deleteTransaction(DeleteTransactionRequest $request)
+    // 🔹 Get all transactions of a customer
+    public function transactions(Request $request)
     {
-        $id = $request->validated()['id'];
+        $data = $request->validate([
+            'user_phone_e164' => 'required|exists:users,user_phone_e164',
+            'customer_phone_e164' => 'required|exists:customers,customer_phone_e164',
+        ]);
 
-        Debt::whereId($id)->delete();
+        $transactions = Debt::where('user_phone_e164', $data['user_phone_e164'])
+            ->where('customer_phone_e164', $data['customer_phone_e164'])
+            ->orderBy('date', 'desc')
+            ->get();
 
         return response()->json([
             'status' => true,
-            'message' => 'Transaction deleted successfully',
-            'transaction' => null
+            'transactions' => $transactions
+        ]);
+    }
+
+    // 🔹 Update transaction
+    public function updateTransaction(Request $request)
+    {
+        $data = $request->validate([
+            'id' => 'required|exists:debts,id',
+            'type' => 'required|in:borrowed,gave',
+            'total_amount' => 'required|numeric|min:0',
+            'note' => 'nullable|string',
+            'date' => 'required|date',
+            'due_date' => 'nullable|date',
+            'source' => 'nullable|in:Cash,Cheque,Other',
+            'cheque_number' => 'nullable|string',
+            'source_other' => 'nullable|string',
+        ]);
+
+        Debt::whereId($data['id'])->update($data);
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Transaction updated successfully'
+        ]);
+    }
+
+    // 🔹 Delete transaction
+    public function deleteTransaction(Request $request)
+    {
+        $data = $request->validate([
+            'id' => 'required|exists:debts,id'
+        ]);
+
+        Debt::whereId($data['id'])->delete();
+
+        return response()->json([
+            'status' => true,
+            'message' => 'Transaction deleted successfully'
         ]);
     }
 }

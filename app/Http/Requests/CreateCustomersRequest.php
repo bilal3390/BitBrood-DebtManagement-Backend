@@ -23,8 +23,9 @@ class CreateCustomersRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required','max:50','min:3'],
-            'phone_e164' => ['required','min:10','max:15']
+            'user_phone_e164' => ['required'],
+            'customer_name' => ['required'],
+            'customer_phone_e164' => ['required']
         ];
     }
 }
