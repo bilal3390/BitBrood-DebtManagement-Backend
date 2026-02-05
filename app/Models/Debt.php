@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Debt extends Model
 {
     protected $fillable = [
-        'user_id',
-        'customer_id',
+        'user_phone_e164',
+        'customer_phone_e164',
         'type',
         'total_amount',
         'note',
