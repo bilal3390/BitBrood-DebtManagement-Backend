@@ -21,3 +21,4 @@ Route::post('edit_transaction', [TransactionController::class, 'updateTransactio
 Route::post('delete_transaction', [TransactionController::class, 'deleteTransaction']);
 
 Route::get('user_data', [DashboardController::class, 'userData']);
+Route::get('check_user_existence', [DashboardController::class, 'checkUserExistence']);
