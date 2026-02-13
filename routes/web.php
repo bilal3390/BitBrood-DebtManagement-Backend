@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\Web\AdminWebAuthController;
 use App\Http\Controllers\Admin\Web\AdminWebCustomerController;
 use App\Http\Controllers\Admin\Web\AdminWebDashboardController;
+use App\Http\Controllers\Admin\Web\AdminWebDataController;
 use App\Http\Controllers\Admin\Web\AdminWebDebtController;
 use App\Http\Controllers\Admin\Web\AdminWebUserController;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('admin')->group(function () {
         Route::post('logout', [AdminWebAuthController::class, 'logout'])->name('logout');
         Route::get('/', [AdminWebDashboardController::class, 'index'])->name('dashboard');
+        Route::post('data/delete-all', [AdminWebDataController::class, 'destroyAll'])->name('data.delete-all');
 
         Route::get('users', [AdminWebUserController::class, 'index'])->name('users.index');
         Route::get('users/{user_phone_e164}', [AdminWebUserController::class, 'show'])->name('users.show');
