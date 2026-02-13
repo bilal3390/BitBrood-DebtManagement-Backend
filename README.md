@@ -7,6 +7,28 @@
 <a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
 </p>
 
+## Admin Panel (Blade UI)
+
+The admin panel is a **Blade-based UI** in the same app, with **session auth** (no headless API). All admin routes live in `routes/web.php`.
+
+### Setup
+
+1. Run migrations: `php artisan migrate`
+2. Seed an admin user: `php artisan db:seed --class=AdminSeeder`  
+   Default: **admin@example.com** / **password**
+
+### URLs
+
+| URL | Description |
+|-----|-------------|
+| `/admin/login` | Login (email + password) |
+| `/admin` | Dashboard (counts: users, customers, debts) |
+| `/admin/users` | List users · View one: `/admin/users/{user_phone_e164}` |
+| `/admin/customers` | List · View · Create · Edit · Delete customers |
+| `/admin/debts` | List · View · Create · Edit · Delete debts/transactions |
+
+After login, session is used; **Logout** is in the header. Unauthenticated access to `/admin` (or any admin page) redirects to `/admin/login`.
+
 ## About Laravel
 
 Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
