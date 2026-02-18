@@ -13,30 +13,32 @@
     @endif
     <style> body { font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif; } </style>
 </head>
-<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen flex items-center justify-center p-4">
+<body class="min-h-screen flex items-center justify-center p-4 bg-[#F8F8F8] text-[#2D3748]">
     <div class="w-full max-w-md">
-        <h1 class="text-2xl font-semibold text-center mb-6">Admin Login</h1>
-        <form method="POST" action="{{ route('admin.login') }}" class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 space-y-4">
+        <h1 class="text-2xl font-bold text-[#2D3748] text-center mb-1">Admin Login</h1>
+        <p class="text-[#718096] text-center text-sm mb-6">Sign in to manage Debt Manager</p>
+        <form method="POST" action="{{ route('admin.login') }}" class="bg-white rounded-2xl border border-[#E2E8F0] shadow-sm p-6 space-y-4">
             @csrf
             @if ($errors->has('email'))
-                <p class="text-sm text-red-600 dark:text-red-400">{{ $errors->first('email') }}</p>
+                <p class="text-sm text-red-600">{{ $errors->first('email') }}</p>
             @endif
             <div>
-                <label for="email" class="block text-sm font-medium mb-1">Email</label>
-                <input type="email" name="email" id="email" value="{{ old('email') }}" required autofocus
-                    class="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100">
+                <label for="email" class="block text-sm font-semibold text-[#2D3748] mb-1">Email *</label>
+                <input type="email" name="email" id="email" value="{{ old('email') }}" required autofocus placeholder="Enter your email"
+                    class="w-full rounded-xl border border-[#E2E8F0] bg-white px-4 py-3 text-[#2D3748] placeholder-[#718096] focus:outline-none focus:ring-2 focus:ring-[#1A3D66] focus:border-transparent">
             </div>
             <div>
-                <label for="password" class="block text-sm font-medium mb-1">Password</label>
-                <input type="password" name="password" id="password" required
-                    class="w-full rounded-lg border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 px-3 py-2 text-gray-900 dark:text-gray-100">
+                <label for="password" class="block text-sm font-semibold text-[#2D3748] mb-1">Password *</label>
+                <input type="password" name="password" id="password" required placeholder="Enter your password"
+                    class="w-full rounded-xl border border-[#E2E8F0] bg-white px-4 py-3 text-[#2D3748] placeholder-[#718096] focus:outline-none focus:ring-2 focus:ring-[#1A3D66] focus:border-transparent">
             </div>
             <div class="flex items-center">
-                <input type="checkbox" name="remember" id="remember" class="rounded border-gray-300">
-                <label for="remember" class="ml-2 text-sm">Remember me</label>
+                <input type="checkbox" name="remember" id="remember" class="rounded border-[#E2E8F0] text-[#1A3D66] focus:ring-[#1A3D66]">
+                <label for="remember" class="ml-2 text-sm text-[#718096]">Remember me</label>
             </div>
-            <button type="submit" class="w-full rounded-lg bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-medium py-2 px-4 hover:opacity-90">
+            <button type="submit" class="w-full rounded-xl bg-[#1A3D66] hover:bg-[#153354] text-white font-semibold py-3 px-4 flex items-center justify-center gap-2">
                 Sign in
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
             </button>
         </form>
     </div>

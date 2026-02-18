@@ -15,22 +15,22 @@
         body { font-family: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif; }
     </style>
 </head>
-<body class="bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100 min-h-screen">
-    <header class="bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700">
+<body class="min-h-screen bg-[#F8F8F8] text-[#2D3748]">
+    <header class="bg-white border-b border-[#E2E8F0]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-14 items-center">
                 <div class="flex gap-6">
-                    <a href="{{ route('admin.dashboard') }}" class="font-semibold text-gray-900 dark:text-white">Admin</a>
+                    <a href="{{ route('admin.dashboard') }}" class="font-semibold text-[#2D3748]">Debt Manager Admin</a>
                     <nav class="flex gap-4">
-                        <a href="{{ route('admin.dashboard') }}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Dashboard</a>
-                        <a href="{{ route('admin.users.index') }}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Users</a>
-                        <a href="{{ route('admin.customers.index') }}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Customers</a>
-                        <a href="{{ route('admin.debts.index') }}" class="text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white">Debts</a>
+                        <a href="{{ route('admin.dashboard') }}" class="text-[#718096] hover:text-[#2D3748] font-medium">Dashboard</a>
+                        <a href="{{ route('admin.users.index') }}" class="text-[#718096] hover:text-[#2D3748] font-medium">Users</a>
+                        <a href="{{ route('admin.customers.index') }}" class="text-[#718096] hover:text-[#2D3748] font-medium">Customers</a>
+                        <a href="{{ route('admin.debts.index') }}" class="text-[#718096] hover:text-[#2D3748] font-medium">Debts</a>
                     </nav>
                 </div>
                 <form method="POST" action="{{ route('admin.logout') }}" class="inline">
                     @csrf
-                    <button type="submit" class="text-sm text-gray-600 dark:text-gray-300 hover:text-red-600">Logout</button>
+                    <button type="submit" class="text-sm text-[#718096] hover:text-[#2D3748] font-medium">Logout</button>
                 </form>
             </div>
         </div>
@@ -38,12 +38,12 @@
 
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         @if (session('success'))
-            <div class="mb-4 rounded-lg bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 px-4 py-3">
+            <div class="mb-4 rounded-xl bg-green-50 text-green-800 border border-green-200 px-4 py-3 text-sm">
                 {{ session('success') }}
             </div>
         @endif
         @if (session('error'))
-            <div class="mb-4 rounded-lg bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 px-4 py-3">
+            <div class="mb-4 rounded-xl bg-red-50 text-red-800 border border-red-200 px-4 py-3 text-sm">
                 {{ session('error') }}
             </div>
         @endif
