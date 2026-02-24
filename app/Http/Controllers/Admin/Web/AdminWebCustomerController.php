@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class AdminWebCustomerController extends Controller
 {
@@ -26,54 +27,33 @@ class AdminWebCustomerController extends Controller
         return view('admin.customers.index', compact('customers'));
     }
 
-    public function show(string $customer_phone_e164): View
+    public function show(string $customer_phone_e164): Response
     {
-        $customer = Customer::where('customer_phone_e164', $customer_phone_e164)->firstOrFail();
-
-        return view('admin.customers.show', compact('customer'));
+        abort(403, 'Viewing customer details is not allowed.');
     }
 
-    public function create(): View
+    public function create(): Response
     {
-        $users = User::orderBy('name')->get(['user_phone_e164', 'name']);
-
-        return view('admin.customers.create', compact('users'));
+        abort(403, 'Creating customers is not allowed.');
     }
 
-    public function store(StoreCustomerRequest $request): RedirectResponse
+    public function store(StoreCustomerRequest $request): Response
     {
-        Customer::create($request->validated());
-
-        return redirect()
-            ->route('admin.customers.index')
-            ->with('success', 'Customer created successfully.');
+        abort(403, 'Creating customers is not allowed.');
     }
 
-    public function edit(string $customer_phone_e164): View
+    public function edit(string $customer_phone_e164): Response
     {
-        $customer = Customer::where('customer_phone_e164', $customer_phone_e164)->firstOrFail();
-        $users = User::orderBy('name')->get(['user_phone_e164', 'name']);
-
-        return view('admin.customers.edit', compact('customer', 'users'));
+        abort(403, 'Editing customers is not allowed.');
     }
 
-    public function update(UpdateCustomerRequest $request, string $customer_phone_e164): RedirectResponse
+    public function update(UpdateCustomerRequest $request, string $customer_phone_e164): Response
     {
-        $customer = Customer::where('customer_phone_e164', $customer_phone_e164)->firstOrFail();
-        $customer->update($request->validated());
-
-        return redirect()
-            ->route('admin.customers.show', $customer_phone_e164)
-            ->with('success', 'Customer updated successfully.');
+        abort(403, 'Editing customers is not allowed.');
     }
 
-    public function destroy(string $customer_phone_e164): RedirectResponse
+    public function destroy(string $customer_phone_e164): Response
     {
-        $customer = Customer::where('customer_phone_e164', $customer_phone_e164)->firstOrFail();
-        $customer->delete();
-
-        return redirect()
-            ->route('admin.customers.index')
-            ->with('success', 'Customer deleted successfully.');
+        abort(403, 'Deleting customers is not allowed.');
     }
 }

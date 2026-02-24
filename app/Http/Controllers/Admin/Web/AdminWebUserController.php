@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class AdminWebUserController extends Controller
 {
@@ -19,10 +20,8 @@ class AdminWebUserController extends Controller
         return view('admin.users.index', compact('users'));
     }
 
-    public function show(string $user_phone_e164): View
+    public function show(string $user_phone_e164): Response
     {
-        $user = User::where('user_phone_e164', $user_phone_e164)->firstOrFail();
-
-        return view('admin.users.show', compact('user'));
+        abort(403, 'Viewing user details is not allowed.');
     }
 }

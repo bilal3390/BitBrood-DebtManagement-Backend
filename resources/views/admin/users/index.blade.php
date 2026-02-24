@@ -16,7 +16,6 @@
                         <th class="px-4 py-3 text-left text-xs font-semibold text-[#718096] uppercase tracking-wider">Email</th>
                         <th class="px-4 py-3 text-left text-xs font-semibold text-[#718096] uppercase tracking-wider">Currency</th>
                         <th class="px-4 py-3 text-left text-xs font-semibold text-[#718096] uppercase tracking-wider">Verified</th>
-                        <th class="px-4 py-3 text-right text-xs font-semibold text-[#718096] uppercase tracking-wider">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-[#E2E8F0]">
@@ -27,13 +26,10 @@
                             <td class="px-4 py-3 text-sm text-[#2D3748]">{{ $user->email ?? '—' }}</td>
                             <td class="px-4 py-3 text-sm text-[#2D3748]">{{ $user->currency }}</td>
                             <td class="px-4 py-3 text-sm text-[#2D3748]">{{ $user->phone_verified_at ? 'Yes' : 'No' }}</td>
-                            <td class="px-4 py-3 text-right">
-                                <a href="{{ route('admin.users.show', $user->user_phone_e164) }}" class="text-sm font-medium text-[#1A3D66] hover:underline">View</a>
-                            </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-4 py-8 text-center text-[#718096]">No users found.</td>
+                            <td colspan="5" class="px-4 py-8 text-center text-[#718096]">No users found.</td>
                         </tr>
                     @endforelse
                 </tbody>

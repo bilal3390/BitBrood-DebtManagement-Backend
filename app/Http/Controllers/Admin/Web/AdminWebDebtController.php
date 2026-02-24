@@ -11,6 +11,7 @@ use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class AdminWebDebtController extends Controller
 {
@@ -30,56 +31,33 @@ class AdminWebDebtController extends Controller
         return view('admin.debts.index', compact('debts'));
     }
 
-    public function show(int $id): View
+    public function show(int $id): Response
     {
-        $debt = Debt::findOrFail($id);
-
-        return view('admin.debts.show', compact('debt'));
+        abort(403, 'Viewing debt details is not allowed.');
     }
 
-    public function create(): View
+    public function create(): Response
     {
-        $users = User::orderBy('name')->get(['user_phone_e164', 'name']);
-        $customers = Customer::orderBy('customer_name')->get(['customer_phone_e164', 'customer_name', 'user_phone_e164']);
-
-        return view('admin.debts.create', compact('users', 'customers'));
+        abort(403, 'Creating debts is not allowed.');
     }
 
-    public function store(StoreDebtRequest $request): RedirectResponse
+    public function store(StoreDebtRequest $request): Response
     {
-        Debt::create($request->validated());
-
-        return redirect()
-            ->route('admin.debts.index')
-            ->with('success', 'Debt created successfully.');
+        abort(403, 'Creating debts is not allowed.');
     }
 
-    public function edit(int $id): View
+    public function edit(int $id): Response
     {
-        $debt = Debt::findOrFail($id);
-        $users = User::orderBy('name')->get(['user_phone_e164', 'name']);
-        $customers = Customer::orderBy('customer_name')->get(['customer_phone_e164', 'customer_name', 'user_phone_e164']);
-
-        return view('admin.debts.edit', compact('debt', 'users', 'customers'));
+        abort(403, 'Editing debts is not allowed.');
     }
 
-    public function update(UpdateDebtRequest $request, int $id): RedirectResponse
+    public function update(UpdateDebtRequest $request, int $id): Response
     {
-        $debt = Debt::findOrFail($id);
-        $debt->update($request->validated());
-
-        return redirect()
-            ->route('admin.debts.show', $id)
-            ->with('success', 'Debt updated successfully.');
+        abort(403, 'Editing debts is not allowed.');
     }
 
-    public function destroy(int $id): RedirectResponse
+    public function destroy(int $id): Response
     {
-        $debt = Debt::findOrFail($id);
-        $debt->delete();
-
-        return redirect()
-            ->route('admin.debts.index')
-            ->with('success', 'Debt deleted successfully.');
+        abort(403, 'Deleting debts is not allowed.');
     }
 }
