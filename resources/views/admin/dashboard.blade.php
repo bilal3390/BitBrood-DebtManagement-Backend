@@ -3,19 +3,19 @@
 @section('title', 'Dashboard')
 
 @section('content')
-    <h1 class="text-2xl font-bold text-[#2D3748] mb-6">Dashboard</h1>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        <a href="{{ route('admin.users.index') }}" class="bg-white rounded-2xl border border-[#E2E8F0] p-6 hover:border-[#1A3D66]/30 hover:shadow-sm transition-all">
+    <h1 class="text-xl sm:text-2xl font-bold text-[#2D3748] mb-4 sm:mb-6">Dashboard</h1>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        <a href="{{ route('admin.users.index') }}" class="bg-white rounded-xl sm:rounded-2xl border border-[#E2E8F0] p-4 sm:p-6 hover:border-[#1A3D66]/30 hover:shadow-sm transition-all">
             <p class="text-sm font-medium text-[#718096]">Users</p>
-            <p class="text-3xl font-bold text-[#2D3748] mt-1">{{ $usersCount }}</p>
+            <p class="text-2xl sm:text-3xl font-bold text-[#2D3748] mt-1">{{ $usersCount }}</p>
         </a>
-        <a href="{{ route('admin.customers.index') }}" class="bg-white rounded-2xl border border-[#E2E8F0] p-6 hover:border-[#1A3D66]/30 hover:shadow-sm transition-all">
+        <a href="{{ route('admin.customers.index') }}" class="bg-white rounded-xl sm:rounded-2xl border border-[#E2E8F0] p-4 sm:p-6 hover:border-[#1A3D66]/30 hover:shadow-sm transition-all">
             <p class="text-sm font-medium text-[#718096]">Customers</p>
-            <p class="text-3xl font-bold text-[#2D3748] mt-1">{{ $customersCount }}</p>
+            <p class="text-2xl sm:text-3xl font-bold text-[#2D3748] mt-1">{{ $customersCount }}</p>
         </a>
-        <a href="{{ route('admin.debts.index') }}" class="bg-white rounded-2xl border border-[#E2E8F0] p-6 hover:border-[#1A3D66]/30 hover:shadow-sm transition-all">
+        <a href="{{ route('admin.debts.index') }}" class="bg-white rounded-xl sm:rounded-2xl border border-[#E2E8F0] p-4 sm:p-6 hover:border-[#1A3D66]/30 hover:shadow-sm transition-all sm:col-span-2 lg:col-span-1">
             <p class="text-sm font-medium text-[#718096]">Debts / Transactions</p>
-            <p class="text-3xl font-bold text-[#2D3748] mt-1">{{ $debtsCount }}</p>
+            <p class="text-2xl sm:text-3xl font-bold text-[#2D3748] mt-1">{{ $debtsCount }}</p>
         </a>
     </div>
 
