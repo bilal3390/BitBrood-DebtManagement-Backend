@@ -17,7 +17,7 @@ class AdminWebDebtController extends Controller
 {
     public function index(Request $request): View
     {
-        $query = Debt::query()->orderBy('date', 'desc');
+        $query = Debt::query()->with(['user', 'customer'])->orderBy('date', 'desc');
 
         if ($request->filled('user_phone_e164')) {
             $query->where('user_phone_e164', $request->user_phone_e164);

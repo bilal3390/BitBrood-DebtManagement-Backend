@@ -32,8 +32,8 @@
                             <td class="px-2 sm:px-4 py-2 sm:py-3 text-sm text-[#2D3748]">{{ $debt->type }}</td>
                             <td class="px-2 sm:px-4 py-2 sm:py-3 text-sm text-[#718096] select-none" style="filter: blur(6px); user-select: none;">{{ number_format($debt->total_amount, 2) }}</td>
                             <td class="px-2 sm:px-4 py-2 sm:py-3 text-sm text-[#2D3748]">{{ $debt->date }}</td>
-                            <td class="px-2 sm:px-4 py-2 sm:py-3 text-sm text-[#2D3748] break-all">{{ $debt->user_phone_e164 }}</td>
-                            <td class="px-2 sm:px-4 py-2 sm:py-3 text-sm text-[#2D3748] break-all">{{ $debt->customer_phone_e164 }}</td>
+                            <td class="px-2 sm:px-4 py-2 sm:py-3 text-sm text-[#2D3748] break-all">{{ $debt->user_phone_e164 }}@if($debt->user) ({{ $debt->user->name }})@endif</td>
+                            <td class="px-2 sm:px-4 py-2 sm:py-3 text-sm text-[#2D3748] break-all">{{ $debt->customer_phone_e164 }}@if($debt->customer) ({{ $debt->customer->customer_name }})@endif</td>
                         </tr>
                     @empty
                         <tr>
