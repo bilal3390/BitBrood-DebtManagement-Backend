@@ -1,6 +1,7 @@
 @extends('admin.layout')
 
 @section('title', 'Add debt')
+@section('breadcrumb', 'Add transaction')
 
 @section('content')
     <div class="mb-6">

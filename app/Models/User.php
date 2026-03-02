@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
+/** @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Debt> $debts */
+
 class User extends Authenticatable
 {
     protected $fillable = [
@@ -19,6 +21,11 @@ class User extends Authenticatable
         'updated_at'
     ];
 
+
+    public function debts()
+    {
+        return $this->hasMany(Debt::class, 'user_phone_e164', 'user_phone_e164');
+    }
 
     public static function getUserFromPhone($phone = null)
     {

@@ -1,10 +1,11 @@
 @extends('admin.layout')
 
 @section('title', 'Debt #' . $debt->id)
+@section('breadcrumb', 'Transaction #' . $debt->id)
 
 @section('content')
-    <div class="mb-6 flex justify-between items-center">
-        <a href="{{ route('admin.debts.index') }}" class="text-sm font-medium text-[#718096] hover:text-[#2D3748]">← Debts</a>
+    <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+        <a href="{{ route('admin.debts.index') }}" class="inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-slate-900">← Debts & Credits</a>
         <div class="flex gap-2">
             <a href="{{ route('admin.debts.edit', $debt->id) }}" class="text-sm font-medium text-[#1A3D66] hover:underline">Edit</a>
             <form method="POST" action="{{ route('admin.debts.destroy', $debt->id) }}" class="inline" onsubmit="return confirm('Delete this debt?');">

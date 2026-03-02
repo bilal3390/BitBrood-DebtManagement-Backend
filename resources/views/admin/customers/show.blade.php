@@ -1,33 +1,44 @@
 @extends('admin.layout')
 
 @section('title', 'Customer — ' . $customer->customer_name)
+@section('breadcrumb', 'Customer details')
 
 @section('content')
-    <div class="mb-6 flex justify-between items-center">
-        <a href="{{ route('admin.customers.index') }}" class="text-sm font-medium text-[#718096] hover:text-[#2D3748]">← Customers</a>
+    <div class="mb-6 flex flex-wrap items-center justify-between gap-4">
+        <a href="{{ route('admin.customers.index') }}" class="inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-slate-900">
+            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+            Customers
+        </a>
         <div class="flex gap-2">
-            <a href="{{ route('admin.customers.edit', $customer->customer_phone_e164) }}" class="text-sm font-medium text-[#1A3D66] hover:underline">Edit</a>
+            <a href="{{ route('admin.customers.edit', $customer->customer_phone_e164) }}" class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-medium py-2.5 px-4 text-sm">Edit</a>
             <form method="POST" action="{{ route('admin.customers.destroy', $customer->customer_phone_e164) }}" class="inline" onsubmit="return confirm('Delete this customer?');">
                 @csrf
                 @method('DELETE')
-                <button type="submit" class="text-sm font-medium text-red-600 hover:underline">Delete</button>
+                <button type="submit" class="inline-flex items-center gap-2 rounded-xl border border-red-200 bg-white hover:bg-red-50 text-red-600 font-medium py-2.5 px-4 text-sm">Delete</button>
             </form>
         </div>
     </div>
-    <h1 class="text-2xl font-bold text-[#2D3748] mb-6">Customer details</h1>
-    <div class="bg-white rounded-2xl border border-[#E2E8F0] overflow-hidden">
-        <dl class="divide-y divide-[#E2E8F0]">
-            <div class="px-4 py-3 flex justify-between gap-4">
-                <dt class="text-sm text-[#718096]">Phone</dt>
-                <dd class="text-sm font-medium text-[#2D3748]">{{ $customer->customer_phone_e164 }}</dd>
+    <h1 class="text-xl font-bold text-slate-800 mb-6">Customer details</h1>
+    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm max-w-2xl">
+        <dl class="divide-y divide-slate-200">
+            <div class="px-5 py-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
+                <dt class="text-sm text-slate-500">Phone</dt>
+                <dd class="text-sm font-medium text-slate-800">{{ $customer->customer_phone_e164 }}</dd>
             </div>
-            <div class="px-4 py-3 flex justify-between gap-4">
-                <dt class="text-sm text-[#718096]">Name</dt>
-                <dd class="text-sm font-medium text-[#2D3748]">{{ $customer->customer_name }}</dd>
+            <div class="px-5 py-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
+                <dt class="text-sm text-slate-500">Name</dt>
+                <dd class="text-sm font-medium text-slate-800">{{ $customer->customer_name }}</dd>
             </div>
-            <div class="px-4 py-3 flex justify-between gap-4">
-                <dt class="text-sm text-[#718096]">User phone</dt>
-                <dd class="text-sm font-medium text-[#2D3748]">{{ $customer->user_phone_e164 }}</dd>
+            <div class="px-5 py-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1">
+                <dt class="text-sm text-slate-500">User</dt>
+                <dd class="text-sm font-medium text-slate-800">
+                    @if($customer->user)
+                        <a href="{{ route('admin.users.show', $customer->user_phone_e164) }}" class="text-[#1A3D66] hover:underline">{{ $customer->user->name }}</a>
+                        <span class="text-slate-500">({{ $customer->user_phone_e164 }})</span>
+                    @else
+                        {{ $customer->user_phone_e164 }}
+                    @endif
+                </dd>
             </div>
         </dl>
     </div>

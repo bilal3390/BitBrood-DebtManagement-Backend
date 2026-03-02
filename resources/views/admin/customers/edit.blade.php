@@ -1,6 +1,7 @@
 @extends('admin.layout')
 
 @section('title', 'Edit customer — ' . $customer->customer_name)
+@section('breadcrumb', 'Edit customer')
 
 @section('content')
     <div class="mb-6">

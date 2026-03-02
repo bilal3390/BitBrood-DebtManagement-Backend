@@ -1,10 +1,11 @@
 @extends('admin.layout')
 
 @section('title', 'Edit debt #' . $debt->id)
+@section('breadcrumb', 'Edit transaction')
 
 @section('content')
     <div class="mb-6">
-        <a href="{{ route('admin.debts.show', $debt->id) }}" class="text-sm font-medium text-[#718096] hover:text-[#2D3748]">← Debt</a>
+        <a href="{{ route('admin.debts.show', $debt->id) }}" class="inline-flex items-center gap-1.5 text-sm font-medium text-slate-600 hover:text-slate-900">← Back to transaction</a>
     </div>
     <h1 class="text-2xl font-bold text-[#2D3748] mb-6">Edit debt #{{ $debt->id }}</h1>
     <form method="POST" action="{{ route('admin.debts.update', $debt->id) }}" class="bg-white rounded-2xl border border-[#E2E8F0] p-6 max-w-lg space-y-4">

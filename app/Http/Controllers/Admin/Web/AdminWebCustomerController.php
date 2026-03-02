@@ -10,7 +10,6 @@ use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class AdminWebCustomerController extends Controller
 {
@@ -27,33 +26,65 @@ class AdminWebCustomerController extends Controller
         return view('admin.customers.index', compact('customers'));
     }
 
-    public function show(string $customer_phone_e164): Response
+    public function show(string $customer_phone_e164): View|RedirectResponse
     {
-        abort(403, 'Viewing customer details is not allowed.');
+        $customer = Customer::with('user')->where('customer_phone_e164', $customer_phone_e164)->first();
+
+        if (! $customer) {
+            return redirect()->route('admin.customers.index')->with('error', 'Customer not found.');
+        }
+
+        return view('admin.customers.show', compact('customer'));
     }
 
-    public function create(): Response
+    public function create(): View
     {
-        abort(403, 'Creating customers is not allowed.');
+        $users = User::orderBy('name')->get(['user_phone_e164', 'name']);
+
+        return view('admin.customers.create', compact('users'));
     }
 
-    public function store(StoreCustomerRequest $request): Response
+    public function store(StoreCustomerRequest $request): RedirectResponse
     {
-        abort(403, 'Creating customers is not allowed.');
+        Customer::create($request->validated());
+
+        return redirect()->route('admin.customers.index')->with('success', 'Customer created successfully.');
     }
 
-    public function edit(string $customer_phone_e164): Response
+    public function edit(string $customer_phone_e164): View|RedirectResponse
     {
-        abort(403, 'Editing customers is not allowed.');
+        $customer = Customer::where('customer_phone_e164', $customer_phone_e164)->first();
+
+        if (! $customer) {
+            return redirect()->route('admin.customers.index')->with('error', 'Customer not found.');
+        }
+
+        return view('admin.customers.edit', compact('customer'));
     }
 
-    public function update(UpdateCustomerRequest $request, string $customer_phone_e164): Response
+    public function update(UpdateCustomerRequest $request, string $customer_phone_e164): RedirectResponse
     {
-        abort(403, 'Editing customers is not allowed.');
+        $customer = Customer::where('customer_phone_e164', $customer_phone_e164)->first();
+
+        if (! $customer) {
+            return redirect()->route('admin.customers.index')->with('error', 'Customer not found.');
+        }
+
+        $customer->update($request->validated());
+
+        return redirect()->route('admin.customers.show', $customer->customer_phone_e164)->with('success', 'Customer updated successfully.');
     }
 
-    public function destroy(string $customer_phone_e164): Response
+    public function destroy(string $customer_phone_e164): RedirectResponse
     {
-        abort(403, 'Deleting customers is not allowed.');
+        $customer = Customer::where('customer_phone_e164', $customer_phone_e164)->first();
+
+        if (! $customer) {
+            return redirect()->route('admin.customers.index')->with('error', 'Customer not found.');
+        }
+
+        $customer->delete();
+
+        return redirect()->route('admin.customers.index')->with('success', 'Customer deleted successfully.');
     }
 }
