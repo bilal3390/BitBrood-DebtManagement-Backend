@@ -27,6 +27,11 @@ class User extends Authenticatable
         return $this->hasMany(Debt::class, 'user_phone_e164', 'user_phone_e164');
     }
 
+    public function deviceTokens()
+    {
+        return $this->hasMany(DeviceToken::class, 'user_phone_e164', 'user_phone_e164');
+    }
+
     public static function getUserFromPhone($phone = null)
     {
         return User::where('user_phone_e164', $phone)->first();

@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\Web\AdminWebCustomerController;
 use App\Http\Controllers\Admin\Web\AdminWebDashboardController;
 use App\Http\Controllers\Admin\Web\AdminWebDataController;
 use App\Http\Controllers\Admin\Web\AdminWebDebtController;
+use App\Http\Controllers\Admin\Web\AdminWebNotificationController;
 use App\Http\Controllers\Admin\Web\AdminWebUserController;
 use Illuminate\Support\Facades\Route;
 
@@ -49,5 +50,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('debts/{id}/edit', [AdminWebDebtController::class, 'edit'])->name('debts.edit');
         Route::put('debts/{id}', [AdminWebDebtController::class, 'update'])->name('debts.update');
         Route::delete('debts/{id}', [AdminWebDebtController::class, 'destroy'])->name('debts.destroy');
+
+        Route::get('notifications', [AdminWebNotificationController::class, 'index'])->name('notifications.index');
+        Route::post('notifications/send', [AdminWebNotificationController::class, 'send'])->name('notifications.send');
     });
 });
