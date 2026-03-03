@@ -36,6 +36,12 @@ class FcmNotificationService
 
     /**
      * Send push notification to multiple FCM tokens
+     *
+     * @param Collection $tokens
+     * @param string $title
+     * @param string $body
+     * @param array $data Optional key-value data
+     * @return array ['sent' => int, 'failed' => int, 'errors' => array]
      */
     public function sendToTokens(Collection $tokens, string $title, string $body, array $data = []): array
     {
@@ -44,14 +50,12 @@ class FcmNotificationService
             return ['sent' => 0, 'failed' => 0, 'errors' => []];
         }
 
-        // Convert $data into string-keyed map with string values
+        // Convert $data into string-keyed map
         $stringData = [];
         foreach ($data as $key => $value) {
-            // Convert numeric keys to string
             if (is_int($key)) {
                 $key = 'key_' . $key;
             }
-            // Convert arrays/objects to JSON
             if (is_array($value) || is_object($value)) {
                 $stringData[$key] = json_encode($value);
             } else {
@@ -65,16 +69,20 @@ class FcmNotificationService
         $result = ['sent' => 0, 'failed' => 0, 'errors' => []];
 
         foreach ($tokens as $token) {
-            $payload = [
-                'message' => [
-                    'token' => $token,
-                    'notification' => [
-                        'title' => $title,
-                        'body' => $body,
-                    ],
-                    'data' => $stringData,
-                ]
+            $message = [
+                'token' => $token,
+                'notification' => [
+                    'title' => $title,
+                    'body' => $body,
+                ],
             ];
+
+            // Only include data if not empty
+            if (!empty($stringData)) {
+                $message['data'] = $stringData;
+            }
+
+            $payload = ['message' => $message];
 
             // Log payload for debugging
             Log::info('FCM Payload', $payload);
