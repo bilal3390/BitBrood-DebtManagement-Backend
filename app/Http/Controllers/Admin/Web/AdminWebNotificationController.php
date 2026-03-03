@@ -97,11 +97,13 @@ class AdminWebNotificationController extends Controller
 
             $response = $this->expo->sendMessages($messages);
 
-            if (!empty($response['ok']) && $response['ok'] === true) {
-                $sent += count($batch);
-            } else {
-                $failed += count($batch);
-                $errors[] = $response['message'] ?? json_encode($response);
+            foreach ($response['data'] ?? [] as $res) {
+                if (($res['status'] ?? '') === 'ok') {
+                    $sent++;
+                } else {
+                    $failed++;
+                    $errors[] = $res['message'] ?? json_encode($res);
+                }
             }
         }
 
