@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DeviceTokenController;
 
 Route::post('register', [AuthController::class, 'register']);
 Route::post('verify_otp', [AuthController::class, 'verifyOtp']);
@@ -23,4 +24,4 @@ Route::post('delete_transaction', [TransactionController::class, 'deleteTransact
 Route::get('user_data', [DashboardController::class, 'userData']);
 Route::get('check_user_existence', [DashboardController::class, 'checkUserExistence']);
 
-Route::post('device_token', [\App\Http\Controllers\DeviceTokenController::class, 'store']);
+Route::post('device_token', [DeviceTokenController::class, 'store']);

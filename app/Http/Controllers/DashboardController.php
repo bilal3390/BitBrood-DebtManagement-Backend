@@ -102,6 +102,7 @@ class DashboardController extends Controller
             'statusCode' => 100, // verified
             'customers' => $this->getCustomers($userPhone),
             'transactions' => $this->getTransactions($userPhone),
+            'user' => $user,
         ]);
     }
 }
