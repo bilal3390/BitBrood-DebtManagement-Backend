@@ -3,14 +3,23 @@
 namespace App\Http\Controllers\Admin\Web;
 
 use App\Http\Controllers\Controller;
+use App\Models\DeviceToken;
 use App\Models\User;
-use App\Services\FcmNotificationService;
+use App\Services\ExpoNotificationService;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class AdminWebNotificationController extends Controller
 {
+    protected ExpoNotificationService $expo;
+
+    public function __construct(ExpoNotificationService $expo)
+    {
+        $this->expo = $expo;
+    }
+
     public function index(Request $request): View
     {
         $query = User::query()->orderBy('name');
@@ -18,9 +27,9 @@ class AdminWebNotificationController extends Controller
         if ($request->filled('search')) {
             $q = $request->search;
             $query->where(function ($qry) use ($q) {
-                $qry->where('name', 'like', '%' . $q . '%')
-                    ->orWhere('user_phone_e164', 'like', '%' . $q . '%')
-                    ->orWhere('email', 'like', '%' . $q . '%');
+                $qry->where('name', 'like', "%{$q}%")
+                    ->orWhere('user_phone_e164', 'like', "%{$q}%")
+                    ->orWhere('email', 'like', "%{$q}%");
             });
         }
 
@@ -37,7 +46,8 @@ class AdminWebNotificationController extends Controller
             $query->whereTime('created_at', '<=', $request->time_to);
         }
 
-        $users = $query->get();
+        // Use pagination for large user lists
+        $users = $query->paginate(50);
 
         return view('admin.notifications.index', compact('users'));
     }
@@ -54,36 +64,53 @@ class AdminWebNotificationController extends Controller
 
         $sendToAll = $request->boolean('send_to_all');
         $userPhones = $sendToAll
-            ? User::pluck('user_phone_e164')->all()
+            ? User::pluck('user_phone_e164')->toArray()
             : array_filter($request->input('user_phones', []));
 
         if (empty($userPhones)) {
             return redirect()->route('admin.notifications.index')
-                ->with('error', 'Please select at least one user or use "Send to all users".');
+                ->with('error', 'Please select at least one user or enable "Send to all users".');
         }
 
-        $fcm = new FcmNotificationService();
-        $tokens = $fcm->getTokensForUsers($userPhones);
+        // Get Expo push tokens
+        $tokens = DeviceToken::whereIn('user_phone_e164', $userPhones)
+            ->pluck('token')
+            ->unique()
+            ->toArray();
 
-        if ($tokens->isEmpty()) {
+        if (empty($tokens)) {
             return redirect()->route('admin.notifications.index')
-                ->with('error', 'No device tokens found for the selected users. Users must have the app installed and grant notification permission to receive push notifications.');
+                ->with('error', 'No device tokens found. Users must have the app installed and grant notification permissions.');
         }
 
-        $result = $fcm->sendToTokens(
-            $tokens,
-            $request->input('title'),
-            $request->input('body')
-        );
+        // Send in batches to avoid timeouts
+        $sent = 0;
+        $failed = 0;
+        $errors = [];
 
-        if ($result['failed'] > 0 && $result['sent'] === 0) {
-            return redirect()->route('admin.notifications.index')
-                ->with('error', 'Failed to send notifications. ' . (implode(' ', $result['errors'] ?: ['Check FCM configuration (FCM_SERVER_KEY in .env).'])));
+        foreach (array_chunk($tokens, 500) as $batch) {
+            $messages = array_map(fn($token) => [
+                'to' => $token,
+                'title' => $request->title,
+                'body' => $request->body,
+            ], $batch);
+
+            $response = $this->expo->sendMessages($messages);
+
+            if (!empty($response['ok']) && $response['ok'] === true) {
+                $sent += count($batch);
+            } else {
+                $failed += count($batch);
+                $errors[] = $response['message'] ?? json_encode($response);
+            }
         }
 
-        $message = "Notification sent to {$result['sent']} device(s).";
-        if ($result['failed'] > 0) {
-            $message .= " {$result['failed']} device(s) failed.";
+        $message = "Notification sent to {$sent} device(s).";
+        if ($failed > 0) {
+            $message .= " {$failed} device(s) failed.";
+            if (!empty($errors)) {
+                Log::error('Expo Notification Errors', $errors);
+            }
         }
 
         return redirect()->route('admin.notifications.index')->with('success', $message);
