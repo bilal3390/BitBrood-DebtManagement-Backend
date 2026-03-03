@@ -35,15 +35,8 @@ return [
         ],
     ],
 
-    /*
-    |--------------------------------------------------------------------------
-    | Firebase Cloud Messaging (FCM)
-    |--------------------------------------------------------------------------
-    | Used to send push notifications to users' mobile devices. Set
-    | FCM_SERVER_KEY in .env (from Firebase Console > Project Settings > Cloud Messaging).
-    */
     'fcm' => [
-        'server_key' => env('FCM_SERVER_KEY'),
+        'service_account' => storage_path('app/firebase/service-account.json'),
     ],
 
 ];
