@@ -33,16 +33,21 @@ class FcmNotificationService
     public function sendToTokens(Collection $tokens, string $title, string $body, array $data = []): array
     {
         $tokens = $tokens->filter()->unique();
-
         if ($tokens->isEmpty()) {
             return ['sent' => 0, 'failed' => 0, 'errors' => []];
         }
-
+    
+        // Cast all data values to strings
+        $stringData = [];
+        foreach ($data as $key => $value) {
+            $stringData[(string)$key] = is_array($value) ? json_encode($value) : (string)$value;
+        }
+    
         $accessToken = $this->getAccessToken();
         $url = "https://fcm.googleapis.com/v1/projects/{$this->projectId}/messages:send";
-
+    
         $result = ['sent' => 0, 'failed' => 0, 'errors' => []];
-
+    
         foreach ($tokens as $token) {
             $payload = [
                 'message' => [
@@ -51,13 +56,12 @@ class FcmNotificationService
                         'title' => $title,
                         'body' => $body,
                     ],
-                    'data' => $data,
+                    'data' => $stringData,
                 ]
             ];
-
-            $response = Http::withToken($accessToken)
-                ->post($url, $payload);
-
+    
+            $response = Http::withToken($accessToken)->post($url, $payload);
+    
             if ($response->successful()) {
                 $result['sent']++;
             } else {
@@ -65,7 +69,7 @@ class FcmNotificationService
                 $result['errors'][] = $response->body();
             }
         }
-
+    
         return $result;
     }
 
