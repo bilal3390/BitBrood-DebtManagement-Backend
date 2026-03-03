@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DeviceToken;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class DeviceTokenController extends Controller
 {
