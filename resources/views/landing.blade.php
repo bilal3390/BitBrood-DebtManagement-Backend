@@ -57,7 +57,7 @@
                     </p>
 
                     <a
-                        href="https://play.google.com/store/apps/details?id=com.bitbrood.debtmanagement"
+                        href="{{ $downloadLink ?? 'https://play.google.com/store/apps/details?id=com.bitbrood.debtmanagement' }}"
                         target="_blank"
                         rel="noopener noreferrer"
                         class="hero-glow inline-flex items-center gap-3 px-6 py-4 rounded-2xl bg-white hover:bg-slate-50 text-slate-900 font-semibold transition-all shadow-lg hover:shadow-xl"
@@ -66,8 +66,8 @@
                             <path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 010 1.73l-2.808 1.626L15.206 12l2.492-2.491zM5.864 2.658L16.802 8.99l-2.302 2.302-8.636-8.634z"/>
                         </svg>
                         <span class="text-left">
-                            <span class="block text-xs text-slate-500 uppercase tracking-wide">Get it on</span>
-                            <span class="block text-lg font-bold">Google Play</span>
+                            <span class="block text-xs text-slate-500 uppercase tracking-wide">Download</span>
+                            <span class="block text-lg font-bold">Download now</span>
                         </span>
                     </a>
 
@@ -119,9 +119,9 @@
                             Track what you owe and who owes you. Simple, private, and always in sync. Take control of your finances.
                         </p>
                         <div class="mt-6 flex items-center gap-3">
-                            <a href="https://play.google.com/store/apps/details?id=com.bitbrood.debtmanagement" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-lg bg-slate-700/50 hover:bg-slate-600/50 px-3 py-2 text-sm font-medium text-white transition-colors">
+                            <a href="{{ $downloadLink ?? 'https://play.google.com/store/apps/details?id=com.bitbrood.debtmanagement' }}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 rounded-lg bg-slate-700/50 hover:bg-slate-600/50 px-3 py-2 text-sm font-medium text-white transition-colors">
                                 <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-3.198l2.807 1.626a1 1 0 010 1.73l-2.808 1.626L15.206 12l2.492-2.491zM5.864 2.658L16.802 8.99l-2.302 2.302-8.636-8.634z"/></svg>
-                                Google Play
+                                Download now
                             </a>
                         </div>
                     </div>
@@ -130,7 +130,7 @@
                         <h4 class="text-white font-semibold text-sm uppercase tracking-wider mb-4">Product</h4>
                         <ul class="space-y-2.5">
                             <li><a href="{{ url('/') }}#features" class="text-slate-400 hover:text-white text-sm transition-colors">Features</a></li>
-                            <li><a href="https://play.google.com/store/apps/details?id=com.bitbrood.debtmanagement" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white text-sm transition-colors">Download</a></li>
+                            <li><a href="{{ $downloadLink ?? 'https://play.google.com/store/apps/details?id=com.bitbrood.debtmanagement' }}" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white text-sm transition-colors">Download now</a></li>
                             <li><a href="{{ url('/') }}#contact" class="text-slate-400 hover:text-white text-sm transition-colors">Contact</a></li>
                         </ul>
                     </div>

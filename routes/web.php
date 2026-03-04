@@ -7,10 +7,15 @@ use App\Http\Controllers\Admin\Web\AdminWebDataController;
 use App\Http\Controllers\Admin\Web\AdminWebDebtController;
 use App\Http\Controllers\Admin\Web\AdminWebNotificationController;
 use App\Http\Controllers\Admin\Web\AdminWebUserController;
+use App\Http\Controllers\Admin\Web\AdminWebSettingController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('landing');
+    $defaultLink = 'https://play.google.com/store/apps/details?id=com.bitbrood.debtmanagement';
+
+    return view('landing', [
+        'downloadLink' => app_setting('download_link', $defaultLink),
+    ]);
 });
 
 Route::post('/contact', function () {
@@ -58,5 +63,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('notifications', [AdminWebNotificationController::class, 'index'])->name('notifications.index');
         Route::post('notifications/send', [AdminWebNotificationController::class, 'send'])->name('notifications.send');
+
+        Route::get('settings', [AdminWebSettingController::class, 'edit'])->name('settings.edit');
+        Route::put('settings', [AdminWebSettingController::class, 'update'])->name('settings.update');
     });
 });
