@@ -8,6 +8,14 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
+    protected $primaryKey = 'user_phone_e164';
+
+    public $incrementing = false;
+
+    protected $casts = [
+        'phone_verified_at' => 'datetime',
+    ];
+
     protected $fillable = [
         'name',
         'email',
