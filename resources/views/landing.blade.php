@@ -3,8 +3,8 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Debt Manager — Track what you owe</title>
-    <meta name="description" content="Track what you owe and who owes you. Debt Manager helps you manage debts and stay on top of your finances.">
+    <title>Kredly — Boost Your Wealth and Financial Growth Now.</title>
+    <meta name="description" content="Boost your wealth and financial growth with Kredly. Track what you owe, who owes you, and stay on top of your finances.">
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=dm-sans:400,500,600,700|instrument-sans:400,500,600,700" rel="stylesheet" />
     @if (file_exists(public_path('build/manifest.json')) || file_exists(public_path('hot')))
@@ -27,14 +27,10 @@
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
                     <a href="{{ url('/') }}" class="flex items-center gap-2 font-semibold text-lg text-slate-800 hover:text-slate-600 transition-colors">
-                        <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1A3D66] text-white text-sm font-bold">D</span>
-                        Debt Manager
+                        <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1A3D66] text-white text-sm font-bold">K</span>
+                        Kredly
                     </a>
                     <nav class="flex items-center gap-2">
-                        <a href="{{ url('/admin/login') }}" class="inline-flex items-center gap-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-medium py-2.5 px-4 text-sm transition-colors">
-                            Admin
-                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
-                        </a>
                     </nav>
                 </div>
             </div>
@@ -46,11 +42,10 @@
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 lg:pt-28 pb-20 lg:pb-32">
                 <div class="text-center max-w-3xl mx-auto">
                     <p class="text-slate-300 text-sm font-semibold uppercase tracking-[0.2em] mb-4">
-                        Welcome to Debt Manager
+                        Welcome to Kredly
                     </p>
                     <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-5 leading-tight">
-                        Know who owes you.<br>
-                        <span class="text-slate-300">Track what you owe.</span>
+                        Boost Your Wealth and Financial Growth Now.
                     </h1>
                     <p class="text-lg sm:text-xl text-slate-300/90 leading-relaxed mb-10">
                         Simple, private, and always in sync. Take control of your money with the app that keeps every IOU in one place.
@@ -112,8 +107,8 @@
                     {{-- Brand & about --}}
                     <div class="lg:col-span-4">
                         <a href="{{ url('/') }}" class="inline-flex items-center gap-2 font-semibold text-lg text-white hover:text-slate-200 transition-colors mb-4">
-                            <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1A3D66] text-white text-sm font-bold">D</span>
-                            Debt Manager
+                            <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1A3D66] text-white text-sm font-bold">K</span>
+                            Kredly
                         </a>
                         <p class="text-slate-400 text-sm leading-relaxed max-w-xs">
                             Track what you owe and who owes you. Simple, private, and always in sync. Take control of your finances.
@@ -174,7 +169,7 @@
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
                         </a>
                     </div>
-                    <p class="text-slate-500 text-sm">© {{ date('Y') }} Debt Manager. All rights reserved.</p>
+                    <p class="text-slate-500 text-sm">© {{ date('Y') }} Kredly. All rights reserved.</p>
                 </div>
             </div>
         </footer>
