@@ -13,6 +13,11 @@ Route::get('/', function () {
     return view('landing');
 });
 
+Route::post('/contact', function () {
+    // Placeholder: add mail/notification logic later
+    return back()->with('contact_sent', true);
+})->name('contact.submit');
+
 /*
 |--------------------------------------------------------------------------
 | Admin Panel (Blade UI, session auth)
