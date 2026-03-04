@@ -9,14 +9,7 @@
             <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
             Customers
         </a>
-        <div class="flex gap-2">
-            <a href="{{ route('admin.customers.edit', $customer->customer_phone_e164) }}" class="inline-flex items-center gap-2 rounded-xl border border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-medium py-2.5 px-4 text-sm">Edit</a>
-            <form method="POST" action="{{ route('admin.customers.destroy', $customer->customer_phone_e164) }}" class="inline" onsubmit="return confirm('Delete this customer?');">
-                @csrf
-                @method('DELETE')
-                <button type="submit" class="inline-flex items-center gap-2 rounded-xl border border-red-200 bg-white hover:bg-red-50 text-red-600 font-medium py-2.5 px-4 text-sm">Delete</button>
-            </form>
-        </div>
+        <span class="text-xs font-medium text-slate-400 uppercase tracking-wide">Read-only</span>
     </div>
     <h1 class="text-xl font-bold text-slate-800 mb-6">Customer details</h1>
     <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm max-w-2xl">

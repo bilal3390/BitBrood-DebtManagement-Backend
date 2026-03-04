@@ -13,7 +13,7 @@
 
     <div class="mb-8">
         <h1 class="text-xl font-bold text-slate-800 mb-1">Finance</h1>
-        <p class="text-sm text-slate-500">Debts & credits for <strong>{{ $user->name }}</strong> ({{ $user->user_phone_e164 }})</p>
+        <p class="text-sm text-slate-500">Debts & credits for <strong>{{ $user->name }}</strong> ({{ $user->user_phone_e164 }}) — amounts are hidden for privacy.</p>
     </div>
 
     @php
@@ -24,11 +24,19 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
         <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
             <p class="text-sm font-medium text-slate-500 mb-1">Borrowed (they owe)</p>
-            <p class="text-2xl font-bold text-emerald-600">{{ $user->currency }} {{ number_format($totalBorrowed, 2) }}</p>
+            <p class="text-2xl font-bold text-emerald-600">
+                <span class="inline-block rounded-lg bg-slate-100 text-slate-400 px-3 py-1 text-sm font-semibold select-none">
+                    Hidden
+                </span>
+            </p>
         </div>
         <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm">
             <p class="text-sm font-medium text-slate-500 mb-1">Gave (they lent)</p>
-            <p class="text-2xl font-bold text-amber-600">{{ $user->currency }} {{ number_format($totalGave, 2) }}</p>
+            <p class="text-2xl font-bold text-amber-600">
+                <span class="inline-block rounded-lg bg-slate-100 text-slate-400 px-3 py-1 text-sm font-semibold select-none">
+                    Hidden
+                </span>
+            </p>
         </div>
     </div>
 
@@ -57,7 +65,11 @@
                                     {{ $debt->type === 'borrowed' ? 'Borrowed' : 'Gave' }}
                                 </span>
                             </td>
-                            <td class="px-4 py-3 text-sm font-semibold text-slate-800">{{ $user->currency }} {{ number_format($debt->total_amount, 2) }}</td>
+                            <td class="px-4 py-3 text-sm font-semibold text-slate-800">
+                                <span class="inline-block rounded-lg bg-slate-100 text-slate-400 px-2 py-1 text-xs font-medium select-none">
+                                    Hidden
+                                </span>
+                            </td>
                             <td class="px-4 py-3 text-sm text-slate-600">{{ $debt->date }}</td>
                             <td class="px-4 py-3 text-sm text-slate-600">{{ $debt->customer?->customer_name ?? $debt->customer_phone_e164 }}</td>
                             <td class="px-4 py-3 text-sm text-slate-500 max-w-[12rem] truncate">{{ $debt->note ?? '—' }}</td>
