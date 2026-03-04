@@ -8,14 +8,14 @@ use App\Http\Controllers\Admin\Web\AdminWebDebtController;
 use App\Http\Controllers\Admin\Web\AdminWebNotificationController;
 use App\Http\Controllers\Admin\Web\AdminWebUserController;
 use App\Http\Controllers\Admin\Web\AdminWebSettingController;
+use App\Models\Setting;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     $defaultLink = 'https://play.google.com/store/apps/details?id=com.bitbrood.debtmanagement';
+    $downloadLink = Setting::where('key', 'download_link')->value('value') ?? $defaultLink;
 
-    return view('landing', [
-        'downloadLink' => app_setting('download_link', $defaultLink),
-    ]);
+    return view('landing', compact('downloadLink'));
 });
 
 Route::post('/contact', function () {
