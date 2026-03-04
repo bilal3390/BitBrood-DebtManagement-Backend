@@ -67,10 +67,13 @@ class DashboardController extends Controller
 
         $userPhone = $data['user_phone_e164'];
 
+        $user = User::where('user_phone_e164', $userPhone)->first();
+
         return response()->json([
             'status' => true,
             'customers' => $this->getCustomers($userPhone),
             'transactions' => $this->getTransactions($userPhone),
+            'user' => $user
         ]);
     }
 
