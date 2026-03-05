@@ -22,27 +22,13 @@
 </head>
 <body class="bg-slate-50 text-slate-800 min-h-screen antialiased">
     <div class="relative overflow-hidden">
-        {{-- Header --}}
-        <header class="sticky top-0 z-20 border-b border-slate-200/80 bg-white/80 backdrop-blur-md">
-            <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex justify-between items-center h-16">
-                    <a href="{{ url('/') }}" class="flex items-center gap-2 font-semibold text-lg text-slate-800 hover:text-slate-600 transition-colors">
-                        <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-[#1A3D66] text-white text-sm font-bold">K</span>
-                        Kredly
-                    </a>
-                    <nav class="flex items-center gap-2">
-                    </nav>
-                </div>
-            </div>
-        </header>
-
         {{-- Hero --}}
         <main class="relative">
             <div class="gradient-mesh absolute inset-0 -z-10 min-h-[70vh] lg:min-h-[85vh]"></div>
             <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 sm:pt-20 lg:pt-28 pb-20 lg:pb-32">
                 <div class="text-center max-w-3xl mx-auto">
-                    <p class="text-slate-300 text-sm font-semibold uppercase tracking-[0.2em] mb-4">
-                        Welcome to Kredly
+                    <p class="text-slate-300 text-xl sm:text-2xl font-semibold uppercase tracking-[0.15em] mb-4">
+                        Welcome to <span class="text-white font-bold text-2xl sm:text-3xl normal-case tracking-normal">Kredly</span>
                     </p>
                     <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white mb-5 leading-tight">
                         Boost Your Wealth and Financial Growth Now.
