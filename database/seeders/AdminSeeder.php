@@ -14,6 +14,7 @@ class AdminSeeder extends Seeder
             [
                 'name' => 'Admin',
                 'password' => 'password',
+                'role' => Admin::ROLE_SUPER_ADMIN,
             ]
         );
     }

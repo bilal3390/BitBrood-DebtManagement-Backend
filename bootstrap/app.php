@@ -13,7 +13,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        $middleware->alias(['admin' => RedirectIfNotAdmin::class]);
+        $middleware->alias([
+            'admin' => RedirectIfNotAdmin::class,
+            'super_admin' => \App\Http\Middleware\EnsureSuperAdmin::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

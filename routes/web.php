@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\Web\AdminWebAdminController;
 use App\Http\Controllers\Admin\Web\AdminWebAuthController;
 use App\Http\Controllers\Admin\Web\AdminWebCustomerController;
 use App\Http\Controllers\Admin\Web\AdminWebDashboardController;
@@ -7,6 +8,7 @@ use App\Http\Controllers\Admin\Web\AdminWebDataController;
 use App\Http\Controllers\Admin\Web\AdminWebDebtController;
 use App\Http\Controllers\Admin\Web\AdminWebNotificationController;
 use App\Http\Controllers\Admin\Web\AdminWebUserController;
+use App\Http\Controllers\Admin\Web\AdminWebProfileController;
 use App\Http\Controllers\Admin\Web\AdminWebSettingController;
 use App\Models\Setting;
 use Illuminate\Support\Facades\Route;
@@ -57,6 +59,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         Route::get('notifications', [AdminWebNotificationController::class, 'index'])->name('notifications.index');
         Route::post('notifications/send', [AdminWebNotificationController::class, 'send'])->name('notifications.send');
+
+        Route::get('profile', [AdminWebProfileController::class, 'show'])->name('profile.show');
+        Route::get('profile/edit', [AdminWebProfileController::class, 'edit'])->name('profile.edit');
+        Route::put('profile', [AdminWebProfileController::class, 'update'])->name('profile.update');
+
+        Route::middleware('super_admin')->prefix('admins')->name('admins.')->group(function () {
+            Route::get('/', [AdminWebAdminController::class, 'index'])->name('index');
+            Route::get('create', [AdminWebAdminController::class, 'create'])->name('create');
+            Route::post('/', [AdminWebAdminController::class, 'store'])->name('store');
+            Route::get('{admin}/edit', [AdminWebAdminController::class, 'edit'])->name('edit');
+            Route::put('{admin}', [AdminWebAdminController::class, 'update'])->name('update');
+            Route::delete('{admin}', [AdminWebAdminController::class, 'destroy'])->name('destroy');
+        });
 
         Route::get('settings', [AdminWebSettingController::class, 'edit'])->name('settings.edit');
         Route::put('settings', [AdminWebSettingController::class, 'update'])->name('settings.update');

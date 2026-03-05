@@ -44,6 +44,6 @@ class AdminWebAuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('admin.login');
+        return redirect()->to('/');
     }
 }

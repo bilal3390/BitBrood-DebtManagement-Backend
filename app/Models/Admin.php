@@ -10,10 +10,14 @@ class Admin extends Authenticatable implements JWTSubject
 {
     use HasFactory;
 
+    public const ROLE_SUPER_ADMIN = 'super_admin';
+    public const ROLE_SUB_ADMIN = 'sub_admin';
+
     protected $fillable = [
         'name',
         'email',
         'password',
+        'role',
     ];
 
     protected $hidden = [
@@ -36,5 +40,15 @@ class Admin extends Authenticatable implements JWTSubject
     public function getJWTCustomClaims(): array
     {
         return [];
+    }
+
+    public function isSuperAdmin(): bool
+    {
+        return $this->role === self::ROLE_SUPER_ADMIN;
+    }
+
+    public function isSubAdmin(): bool
+    {
+        return $this->role === self::ROLE_SUB_ADMIN;
     }
 }
