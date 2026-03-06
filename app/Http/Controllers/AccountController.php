@@ -14,13 +14,15 @@ use Illuminate\Support\Facades\Schema;
 class AccountController extends Controller
 {
     /**
-     * Soft delete the user and all related data (customers, debts, device_tokens).
-     * Payload: user_phone (E164)
+     * Permanently delete the user and all related data (customers, debts/debts as transactions, device_tokens).
+     * Body: user_phone_e164 (E.164).
      */
     public function deleteAccount(Request $request): JsonResponse
     {
         $data = $request->validate([
-            'user_phone_e164' => 'required|string|exists:users,user_phone_e164',
+            'user_phone_e164' => 'required|string|regex:/^\+[1-9]\d{6,14}$/|exists:users,user_phone_e164',
+        ], [
+            'user_phone_e164.exists' => 'No account found with this phone number.',
         ]);
 
         $userPhone = $data['user_phone_e164'];
@@ -29,53 +31,63 @@ class AccountController extends Controller
         if (!$user) {
             return response()->json([
                 'status' => false,
-                'message' => 'User not found.',
+                'message' => 'No account found with this phone number.',
             ], 404);
         }
 
         DB::transaction(function () use ($user) {
-            Customer::where('user_phone_e164', $user->user_phone_e164)->delete();
-            Debt::where('user_phone_e164', $user->user_phone_e164)->delete();
-            DeviceToken::where('user_phone_e164', $user->user_phone_e164)->delete();
-            $user->delete();
+            $phone = $user->user_phone_e164;
+            Customer::where('user_phone_e164', $phone)->forceDelete();
+            Debt::where('user_phone_e164', $phone)->forceDelete();
+            DeviceToken::where('user_phone_e164', $phone)->forceDelete();
+            $user->forceDelete();
         });
 
         return response()->json([
             'status' => true,
-            'message' => 'Account and related data have been soft deleted and can be recovered later.',
+            'message' => 'Account and related data have been permanently deleted.',
         ]);
     }
 
     /**
-     * Verify user by old number and update to new number.
-     * Payload: old_number, new_number (E164)
+     * Change Number: identify user by old_phone_e164, update to new_phone_e164.
+     * Body: old_phone_e164, new_phone_e164 (E.164).
      */
     public function changeNumber(Request $request): JsonResponse
     {
         $data = $request->validate([
-            'old_number' => 'required|string|exists:users,user_phone_e164',
-            'new_number' => 'required|string|unique:users,user_phone_e164',
+            'old_phone_e164' => 'required|string|regex:/^\+[1-9]\d{6,14}$/|exists:users,user_phone_e164',
+            'new_phone_e164' => 'required|string|regex:/^\+[1-9]\d{6,14}$/|unique:users,user_phone_e164',
+        ], [
+            'old_phone_e164.exists' => 'No account found with this phone number.',
+            'new_phone_e164.unique' => 'This number is already registered.',
         ]);
 
-        $oldNumber = $data['old_number'];
-        $newNumber = $data['new_number'];
+        $oldPhone = $data['old_phone_e164'];
+        $newPhone = $data['new_phone_e164'];
 
-        $user = User::where('user_phone_e164', $oldNumber)->first();
+        if ($oldPhone === $newPhone) {
+            return response()->json([
+                'status' => false,
+                'message' => 'New number must be different from current number.',
+            ], 422);
+        }
 
+        $user = User::where('user_phone_e164', $oldPhone)->first();
         if (!$user) {
             return response()->json([
                 'status' => false,
-                'message' => 'User not found with the given old number.',
+                'message' => 'No account found with this phone number.',
             ], 404);
         }
 
-        DB::transaction(function () use ($oldNumber, $newNumber) {
+        DB::transaction(function () use ($oldPhone, $newPhone) {
             Schema::disableForeignKeyConstraints();
 
-            Customer::where('user_phone_e164', $oldNumber)->update(['user_phone_e164' => $newNumber]);
-            Debt::where('user_phone_e164', $oldNumber)->update(['user_phone_e164' => $newNumber]);
-            DeviceToken::where('user_phone_e164', $oldNumber)->update(['user_phone_e164' => $newNumber]);
-            User::where('user_phone_e164', $oldNumber)->update(['user_phone_e164' => $newNumber]);
+            Customer::where('user_phone_e164', $oldPhone)->update(['user_phone_e164' => $newPhone]);
+            Debt::where('user_phone_e164', $oldPhone)->update(['user_phone_e164' => $newPhone]);
+            DeviceToken::where('user_phone_e164', $oldPhone)->update(['user_phone_e164' => $newPhone]);
+            User::where('user_phone_e164', $oldPhone)->update(['user_phone_e164' => $newPhone]);
 
             Schema::enableForeignKeyConstraints();
         });
