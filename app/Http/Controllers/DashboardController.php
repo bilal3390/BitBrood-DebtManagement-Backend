@@ -88,10 +88,16 @@ class DashboardController extends Controller
 
         $userPhone = $data['user_phone_e164'];
 
-        // exists validation already guarantees user exists
         $user = User::where('user_phone_e164', $userPhone)
             ->select('phone_verified_at')
             ->first();
+
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'User not found',
+            ], 404);
+        }
 
         if (!$user->phone_verified_at) {
             return response()->json([
