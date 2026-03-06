@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin\Web;
 use App\Http\Controllers\Controller;
 use App\Models\Customer;
 use App\Models\Debt;
+use App\Models\DeviceToken;
 use App\Models\User;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -35,9 +36,10 @@ class AdminWebDataController extends Controller
         DB::transaction(function () {
             Debt::query()->delete();
             Customer::query()->delete();
+            DeviceToken::query()->delete();
             User::query()->delete();
         });
 
-        return redirect()->route('admin.dashboard')->with('success', 'All data (users, customers, debts) has been deleted.');
+        return redirect()->route('admin.dashboard')->with('success', 'All data (users, customers, debts, device tokens) has been deleted.');
     }
 }

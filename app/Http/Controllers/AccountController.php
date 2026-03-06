@@ -37,10 +37,10 @@ class AccountController extends Controller
 
         DB::transaction(function () use ($user) {
             $phone = $user->user_phone_e164;
-            Customer::where('user_phone_e164', $phone)->forceDelete();
-            Debt::where('user_phone_e164', $phone)->forceDelete();
-            DeviceToken::where('user_phone_e164', $phone)->forceDelete();
-            $user->forceDelete();
+            Debt::where('user_phone_e164', $phone)->delete();
+            Customer::where('user_phone_e164', $phone)->delete();
+            DeviceToken::where('user_phone_e164', $phone)->delete();
+            $user->delete();
         });
 
         return response()->json([

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin\Web;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\UpdateUserRequest;
+use App\Models\DeviceToken;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
@@ -63,6 +64,7 @@ class AdminWebUserController extends Controller
             return redirect()->route('admin.users.index')->with('error', 'User not found.');
         }
 
+        DeviceToken::where('user_phone_e164', $user_phone_e164)->delete();
         $user->delete();
 
         return redirect()->route('admin.users.index')->with('success', 'User deleted successfully.');
